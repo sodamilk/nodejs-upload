@@ -1,5 +1,6 @@
 var mongo = require('mongodb'),
-	fs = require('fs')
+	fs = require('fs'),
+	sizeOf = require('image-size')
  
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -21,9 +22,11 @@ db.open(function(err, db) {
  
 exports.listByID = function(req, res) {
     var id = req.params.id;
-    console.log('Retrieving wine: ' + id);
     db.collection('photos', function(err, collection) {
         collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
+			var dimensions = sizeOf(__dirname+'/../public/images/'+item.name);    
+			item.width = dimensions.width;
+			item.height = dimensions.height;
             res.send(item);
         });
     });
@@ -39,7 +42,7 @@ exports.listAll = function(req, res) {
 
 exports.upload = function(req, res) {
 	var fileInfo = req.files.files[0];
-	console.log('file_info?',fileInfo);
+	//console.log('file_info?',fileInfo);
 	var tmpPath = fileInfo.path;
     var serverPath = __dirname + '/../public/images/' + fileInfo.name;
 	var profile = {

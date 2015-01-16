@@ -13,7 +13,7 @@ app.configure(function () {
 });
 
 app.get('/photos/list',photo.listAll);
-app.get('/photos/list/:id/details',photo.listByID);
+app.get('/photos/list/:id/detail',photo.listByID);
 app.post('/photo/upload',photo.upload);
  
 app.listen(3000);

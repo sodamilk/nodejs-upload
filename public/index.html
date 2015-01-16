@@ -1,43 +1,214 @@
 <html>
 <head>
 <title>File upload and slider</title>
+<link rel="stylesheet" href="font-awesome.min.css">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="jquery.fileupload.css">
 <link rel="stylesheet" href="jquery.fileupload-ui.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="grid.css">
+<link rel="stylesheet" href="theme.css">
+<style>
+#page {width:1021px!important;margin-top:0}
+#primary,#secondary {display:block;float:left}
+a.hoverblock {height:255px;background-size:auto 100%!important}
+img.portpic {max-height:255px;amax-width:255px}
+.portfolio-box:hover .cover {opacity:.7!important}
+.portfolio-box:hover .coverinfo {opacity:1!important}
+.smartbox li.active a {color:#f00!important;background-color:antiquewhite!important}
+.smartbox a:hover, .smartbox a:focus {color:#f00!important}
+
+/* Album */
+/* Album modal box */
+#albumModalBox {adisplay:inline-block!important;overflow: visible!important}
+#albumModalBox .modal-dialog {width:100%;margin:0 auto;padding:0}
+#albumModalBox .modal-content {abackground-color:#000;border:0 none!important;background-color:rgba(0,0,0,0.8);box-shadow:none;border-radius:0}
+#albumModalBox .modal-body {padding:0;margin:0}
+#albumModalBox .modal-footer {width:100%;height:112px;adisplay:inline-block;padding:0;text-align:left;border:0 none}
+#albumModalBox .modal-footer.no-paging {height:100px}
+
+#albumModalBox .main-container {width:100%;aheight:100%;position:relative}
+#albumModalBox .content {aheight:100%}
+/* Album top toolbar */
+#albumModalBox .toolbar {
+	width:100%;
+	height: 36px;
+	padding:3px 0;margin:0;position:absolute;top:0;
+	color:#fff;
+	line-height: 30px;
+	text-align:center;
+	afont-weight: bold;
+	opacity: 0.6;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	-moz-opacity: 0.6;
+	-khtml-opacity: 0.6;
+}
+#albumModalBox .toolbar:hover {background-color:rgba(0,0,0,0.5);
+	opacity:0.8;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	-moz-opacity: 0.8;
+	-khtml-opacity: 0.8;
+}
+#albumModalBox .toolbar .fa {width:25px;vertical-align:top;color:#fff;font-size:13pt;line-height:30px}
+#albumModalBox .toolbar-cont {width:100%;aheight:100%;aposition:relative;display:table;table-layout:fixed}
+#albumModalBox .toolbar-cont div {display:table-cell;vertical-align:middle}
+#albumModalBox .toolbar .image-caption {width:100%;max-width:100%;margin-left:10px;text-align:left;display:table;table-layout:fixed}
+#albumModalBox .toolbar .image-caption span {display:table-cell}
+#albumModalBox .toolbar .image-caption .text-truncate {width:95%}
+#albumModalBox .toolbar .actions {width:150px;text-align:center}
+#albumModalBox .toolbar .action {display:inline-block;padding:0 10px;float:none;cursor: pointer}
+#albumModalBox .toolbar .action a:hover .fa {color: #f00!important}
+#albumModalBox .toolbar .button {text-align:right}
+#albumModalBox .toolbar .button .fa-times {font-size:15pt}
+/* Album - Main content */
+.cc .picture img {max-width:100%;max-height:100%;padding:0;margin:0;border:0 none;vertical-align:middle;display:none}
+.cc .picture .image-cont {display:inline-block}
+.cc .media-item .fa {font-size:200pt}
+.video .media-item object {left:0}
+.cc .audio .media-item .jwplayer {margin:0 auto}
+#aalbumModalBox .player-cont {width:auto!important;width:80%;min-width:80%;max-width:95%;margin:-3px auto;display:inline}
+.cc .media-item .player-cont {width:100%;height:100%;display:block;margin:0 auto;max-width:100%;max-height:100%;outline:0}
+.cc .audio .player-cont {width:60%;max-width:60%;height:auto!important}
+.cc .audio .player-cont album-jwplayer,
+.cc .audio div {outline:none}
+.cc .audio .jwpreview .fa-file-audio-o {display:block;text-align:center;color:#14a4fa!important;line-height:inherit}
+.cc .audio object {left:0}
+.cc .media-item .jwplayer {max-height:100%;amax-width:100%;margin:auto}
+.cc .document .html-box {height:100%;width:60%!important;min-width:60%;position:relative;margin:0 auto;line-height:40}
+.cc .document iframe {width:100%;height:100%;border:0 none;padding:0;margin:0;position:absolute;top:0;left:0}
+.cc .thumb-cont {
+width: 100%;
+display: table;
+table-layout: fixed;
+}
+.cc .thumb-inner {
+display: table-cell;
+vertical-align: middle;
+text-align: center;
+}
+
+/* Album - Spinner control */
+#albumModalBox a:active {outline:0}
+#albumModalBox .spinner {width:100%;display:block;padding:0;margin:0;position:relative;height:17px}
+#albumModalBox .spinner .progress {width:100%;height:12px;position:relative;background-color:transparent;border-radius:0;margin:0;cursor:pointer}
+#albumModalBox .spinner .progress-bar {position:absolute;left:0}
+#albumModalBox .spinner-track {width:100%;z-index:1;background-color:#fff}
+#albumModalBox .spinner-select {width:0;z-index:3}
+#albumModalBox .spinner .btn {height:10px;position:absolute;top:1px;left:50%;margin-left:-25px;padding:0px 25px;background-color:#777;z-index:5;border:0 none;atransition:0.25s;outline:0}
+/* Album - Paging button */
+#albumModalBox .paging-button {width:100px;height:96%;top:33px;position:absolute;z-index:999;color:#fff;opacity:0.5;overflow:hidden
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+}
+/*
+#albumModalBox .video .paging-button,
+#albumModalBox .audio .paging-button {width:20%}
+*/
+#albumModalBox .paging-button .fa {font-size:50pt;color:#fff;line-height:inherit!important;vertical-align:initial}
+#albumModalBox .paging-button a {width:100%;height:100%;display:block;line-height:50}
+#albumModalBox .paging-button:hover {opacity:1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+}
+#albumModalBox .paging-button.btn-prev {left: 0;padding-left:10px;}
+#albumModalBox .paging-button.btn-next {right:0;padding-right: 10px;text-align:right}
+/*
+#albumModalBox .document.loaded .paging-button {width:20%}
+*/
+
+/* Album - Thumbnail Wrap */
+#albumModalBox .slider-thumbs {width:100%;height:100px;display:inline-block;overflow:hidden;position:relative}
+#albumModalBox .slider-thumbs ul, #albumModalBox .slider-thumbs li {list-style:none;padding:0;margin:0}
+#albumModalBox .slider-thumbwrap {width:auto;height:100px;overflow:hidden;position:absolute;left:0;top:0;display:inline-block}
+#albumModalBox .slider-thumbwrap ul {position:relative;display:inline-block;width:auto}
+#albumModalBox .slider-thumbwrap li {width:150px;height:100px;float:left;min-width:50px;position:relative;overflow:hidden}
+#albumModalBox .no-paging .slider-thumbwrap {position:static;margin:0 auto;display:block;overflow:hidden}
+/* Album - Thumbnail */
+#albumModalBox .slide-item {opacity:0.6;height:100px
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  filter: alpha(opacity=60);
+  -moz-opacity: 0.6;
+  -khtml-opacity: 0.6;
+}
+#aalbumModalBox .slide-item .thumb-cont {min-height:100px}
+#albumModalBox .slide-item.loaded .fa {display:none}
+#albumModalBox .slide-item.highlight {border:solid 2px red}
+#albumModalBox .slide-item:hover,
+#albumModalBox .active .slide-item,
+#albumModalBox .active .slide-item.highlight,
+#albumModalBox .active .slide-item:hover, 
+#albumModalBox .active .slide-item.highlight:hover {opacity:1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=100);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+}
+#albumModalBox .slide-item .thumb-inner .fa {
+	font-size:70px;
+	width:100%;
+	line-height: 100px;
+	height:100%;
+	background-color: #fff;
+	text-align:center;
+	position: relative;
+}
+#albumModalBox .slide-item .image-cont {width:100%;display:inline-block}
+#albumModalBox .slide-item img {display:none;amax-width:150px;height:100px;max-height:100px}
+</style>
 </head>
-<body data-ng-app="demo" data-ng-controller="DemoFileUploadController">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12">
-			<h1>Images uploaded:</h1>
+<body class="cc home blog custom-background" data-ng-app="demo" data-ng-controller="DemoFileUploadController">
+	<div id="page" class="hfeed site container_12">
+		<div class="topmenu">
+		<div id="submenu" class="menu-primary-container">
+			<ul class="sfmenu sf-js-enabled sf-shadow">
+				<li id="menu-item-72" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-72">
+					<a href="#">Landscape <span ng-show="images&&images.length>0">({{images.length}})</span></a></li>
+			</ul>
+		</div>
+	</div>
+		<div id="main" class="site-main cf">
+		<div id="secondary" class="widget-area grid_3 equal_height">
+			<div class="grid_3">
+				<header id="masthead" class="site-header" role="banner">
+					<div class="logo">
+					<h1 class="site-title">
+						<a href="#" title="Image Gallery" rel="home">Gallery</a></h1>
+					<h2>Images listing</h2>
+					</div>
+				</header>
+				<aside id="archives-2" class="widget widget_archive"><h1 class="widget-title">Panel</h1> 
+					<ul class="smartbox">		
+						<ul class="nav anav-tabs nav-stacked" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#content" role="tab" data-toggle="tab">Images</a></li>
+							<li role="presentation">
+								<a href="#upload" role="tab" data-toggle="tab">Upload</a></li>
+						</ul>
+					</ul>
+				</aside>				
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-		<table class="table ng-cloak" width="100%">
-			<thead>
-				<tr>
-					<th>&nbsp;</th>
-					<th>Filename</th>
-					<th>Type</th>
-					<th>Size</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="img in images">
-					<td width="120" align="center">
-						<a href="/photos/list/{{img._id}}/details"><img ng-src="/images/{{img.name}}" height="70"/></a>
-					</td>
-					<td width="40%">{{img.name}}</td>
-					<td width="20%">{{img.type}}</td>
-					<td width="20%">{{img.size}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-		</div>
-	</div>
-	<div class="container-fluid">
+		<div id="primary" class="content-area grid_9 equal_height tab-content full-screen">
+			<div id="content" class="site-content cf tab-pane active" role="main">
+				<article ng-repeat="img in images" id="post-{{img._id}}" class="post type-post status-publish format-standard has-post-thumbnail hentry category-entertainment category-finance portfolio-box grid_3">
+					<a href="#" class="hoverblock" style="background:url(/images/{{img.name}}) center center no-repeat" title="{{img.name}}">
+						
+					</a>
+					<div class="cover" style="opacity: 0;" ng-mouseover="image_hover(img._id,this)" data-toggle="tooltip" data-placement="left" title="">
+						<div class="coverinfo" style="opacity: 0;">
+							<h2><a ng-click="open_slider(img)" title="{{img.name}}" rel="bookmark" target="_blank">{{img.name}}</a></h2>
+							<p>Click to show SLIDER.</p>
+						</div>
+					</div>
+				</article>			
+			</div>
+			<div id="upload" class="container-fluid tab-pane">
 		<div class="row">
 			<div class="col-md-12">
 	<h1>Files upload:</h1>
@@ -116,6 +287,136 @@
 	</div>
 	</div>
 </div>
+		</div>
+	</div>
+	</div>
+	<div class="container-fluid hide">
+		<div class="row">
+			<div class="col-md-12">
+			<h1>Images uploaded:</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+		<table class="table ng-cloak" width="100%">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th>Filename</th>
+					<th>Type</th>
+					<th>Size</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="img in images">
+					<td width="120" align="center">
+						<a href="/photos/list/{{img._id}}/details"><img ng-src="/images/{{img.name}}" height="70"/></a>
+					</td>
+					<td width="40%">{{img.name}}</td>
+					<td width="20%">{{img.type}}</td>
+					<td width="20%">{{img.size}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+		</div>
+	</div>
+		<!-- Album Template -->
+		<div class="album-panel" ng-controller="albumController">
+		<a id="albumToggle" href="#" data-toggle="modal" data-target="#albumModalBox"></a>
+		<div ang-if="_state.filelist.action=='album'">
+<div id="albumModalBox" class="modal" role="dialog" data-keyboard="false" data-backdrop="false" album-resize>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content {{selected.type}}" ng-class="{loaded:selected.loaded}">
+			<div class="modal-body"> 
+				<div class="main-container">
+					<!-- AngularJS Carousel -->
+					<div class="content">
+						<div class="thumb-cont">
+	    					<div class="thumb-inner media-item" ng-style="{height:resize.modal.h}" ng-click="toggle_close($event)">
+				            	<div ng-if="selected.type=='picture'" class="image-cont">
+				            		<img ng-style="{'max-height':resize.modal.h}">
+									<div class="fa" ng-class="[file_faicon(selected.type)]"></div>
+				            	</div>
+				            	<div ng-if="['video','audio'].indexOf(selected.type)!==-1" class="player-cont" ng-style="{'max-height':resize.modal.h}">
+				            		<album-jwplayer id="media_{{selected.id}}" item="selected" src="" type="{{selected.type}}">
+				            			<div id='jwplayer-cont'></div>
+				            		</album-jwplayer>
+				            	</div>
+				            	<div ng-if="selected.type=='document'">
+					            	<div class="fa" ng-class="[file_faicon(selected.type)]"></div>
+				            	</div>
+				            	<div ng-if="['video','audio','picture','document'].indexOf(selected.type)===-1" class="fa" ng-class="[file_faicon(selected.type)]"></div>
+	    					</div>
+						</div>
+					</div>
+					<!-- Toolbar -->
+					<div slide-toolbar class="toolbar">
+						<div class="toolbar-cont">
+							<div>
+								<div class="image-caption">
+									<span class="fa" ng-class="['fa'+file_faicon(selected.type)]"></span>
+									<span class="text text-truncate" image-caption-text>
+										{{selected.name}}
+									</span>
+								</div>
+							</div>
+							<div class="button">
+								<div class="action">
+									<a href adata-dismiss="modal" ng-click="toggle_close()">
+										<i class="fa fa-times" ></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="paging-button btn-prev" ng-hide="selectedIdx<=0">
+						<a href ng-click="selected_prev($event)" ng-style="{'line-height':resize.modal.h-33+'px'}">
+							<span class="fa fa-angle-left"></span>
+						</a>
+					</div>
+					<div class="paging-button btn-next" ng-hide="selectedIdx==_files.length-1">
+						<a href ng-click="selected_next($event)" ng-style="{'line-height':resize.modal.h-33+'px'}">
+							<i class="fa fa-angle-right"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" ng-class="{'no-paging':paginate.total<=1}">
+				<div ng-if="paginate.total>1" class="spinner spinner-control">
+					<div class="progress">
+						<div class="spinner-track progress-bar progress-bar-success" role="progressbar"></div>
+						<div class="spinner-select progress-bar progress-bar-warning" role="progressbar" ang-style="{width:spinner.percentage+'%'}"></div>
+					</div>
+					<div class="btn btn-default"></div>
+				</div>
+				<div class="slider-thumbs">
+					<div class="slider-thumbwrap">
+						<ul>
+							<li ng-repeat="slide in sliders = (_files)" class="type-{{slide.type}} idx-{{$index}}" ng-class="{active:slide.id==selected.id}">
+								<div class="slide-item">
+									<a href="" ng-click="$event.preventDefault();selected_item($index);">
+										<div class="thumb-cont">
+											<div class="thumb-inner">
+												<div class="image-cont" style="display:inline-block">
+								            		<img ng-if="slide.name||slide.type=='picture'" src/>
+													<span class="fa" ng-class="[file_faicon(slide.type)]"></span>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+		</div>
+
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
@@ -128,6 +429,7 @@
 	<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<!-- blueimp Gallery script -->
+	<script src="ui-bootstrap-custom-tpls-0.10.0.min.js"></script>
 	<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>	
 	<script src="jquery.fileupload.js"></script>
 	<script src="jquery.fileupload-process.js"></script>

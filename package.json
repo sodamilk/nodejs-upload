@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "3.x",
     "formidable": "^1.0.16",
+    "image-size": "^0.3.5",
     "mongodb": "^1.4.28"
   }
 }
