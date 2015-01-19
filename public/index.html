@@ -200,7 +200,7 @@ text-align: center;
 					<a href="#" class="hoverblock" style="background:url(/images/{{img.name}}) center center no-repeat" title="{{img.name}}">
 						
 					</a>
-					<div class="cover" style="opacity: 0;" ng-mouseover="image_hover(img._id,this)" data-toggle="tooltip" data-placement="top" title="">
+					<div class="cover" style="opacity: 0;" ng-click="open_slider(img)" ng-mouseover="image_hover(img._id,this)" data-toggle="tooltip" data-placement="top" title="">
 						<div class="coverinfo" style="opacity: 0;">
 							<h2><a ng-click="open_slider(img)" title="{{img.name}}" rel="bookmark" target="_blank">{{img.name}}</a></h2>
 							<p>Click to show SLIDER.</p>
